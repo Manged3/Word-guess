@@ -1,0 +1,182 @@
+<html>
+<head>
+    <style>
+        body {
+            background-color: #3498db;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .word {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .attempts {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        .buttons {
+            background-color: #ffffff;
+            color: #3498db;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.5s ease; 
+        }
+
+        .game-over {
+            color: red;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        .meanings {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        img {
+            width: 450px;
+            height: 200px;
+            margin-right: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex; align-items: center; justify-content: center; text-align: left;">
+        <img src="edwin(pic).jpeg" alt="Logo">
+    </div>
+    <h1>easy leve 1</h1>
+    <div class="meanings">
+        <h2><p>A small, sweet fruit with a smooth skin and a hard pit.</p></h2>
+    </div>
+    <div class="word" id="wordToGuess"></div>
+    <div class="attempts" id="attemptsDisplay">Attempts left: 5</div>
+    <div class="buttons">
+        <button onclick="checkGuess('A')" id="buttonA">A</button>
+        <button onclick="checkGuess('B')" id="buttonB">B</button>
+        <button onclick="checkGuess('C')" id="buttonC">C</button>
+        <button onclick="checkGuess('D')" id="buttonD">D</button>
+        <button onclick="checkGuess('E')" id="buttonE">E</button>
+        <button onclick="checkGuess('F')" id="buttonF">F</button>
+        <button onclick="checkGuess('G')" id="buttonG">G</button>
+        <button onclick="checkGuess('H')" id="buttonH">H</button>
+        <button onclick="checkGuess('I')" id="buttonI">I</button>
+        <button onclick="checkGuess('J')" id="buttonJ">J</button>
+        <button onclick="checkGuess('K')" id="buttonK">K</button>
+        <button onclick="checkGuess('L')" id="buttonL">L</button>
+        <button onclick="checkGuess('M')" id="buttonM">M</button>
+        <button onclick="checkGuess('N')" id="buttonN">N</button>
+        <button onclick="checkGuess('O')" id="buttonO">O</button>
+        <button onclick="checkGuess('P')" id="buttonP">P</button>
+        <button onclick="checkGuess('Q')" id="buttonQ">Q</button>
+        <button onclick="checkGuess('R')" id="buttonR">R</button>
+        <button onclick="checkGuess('S')" id="buttonS">S</button>
+        <button onclick="checkGuess('T')" id="buttonT">T</button>
+        <button onclick="checkGuess('U')" id="buttonU">U</button>
+        <button onclick="checkGuess('V')" id="buttonV">V</button>
+        <button onclick="checkGuess('W')" id="buttonW">W</button>
+        <button onclick="checkGuess('X')" id="buttonX">X</button>
+        <button onclick="checkGuess('Y')" id="buttonY">Y</button>
+        <button onclick="checkGuess('Z')" id="buttonZ">Z</button>
+    </div>
+    
+    <audio id="myAudio">
+    <source src="edwin(bgm).mp3" type="audio/mp3">
+    </audio>
+    <div style="background-color: #ffffff; color: #3498db; padding: 5px; border-radius: 5px; margin-top: 5px;">
+    <button onclick="playAudio()" style="background-color: #3498db; color: #fff; padding: 5px 5px; border: none; border-radius: 100px; cursor: pointer; font-size: 18px;">MUSIC</button></a></div>
+    <div style="background-color: #ffffff; color: #3498db; padding: 10px; border-radius: 0px; margin-top: 15px;">
+    <a href="1.html"><button style="background-color: #3498db; color: #fff; padding: 15px 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 15px;">[BACK TO HOME]</button></a>
+    
+    <div class="game-over" id="gameOverMessage"></div>
+
+    <script>
+    
+         function playAudio() {
+         var audio = document.getElementById("myAudio");
+         audio.play();} 
+         
+         
+        let attemptsLeft = 5;
+        const selectedWord = "PLUM";
+
+        document.getElementById('wordToGuess').textContent = '_ '.repeat(selectedWord.length);
+
+        function checkGuess(letter) {
+            const buttonElement = document.getElementById('button' + letter);
+
+            if (selectedWord.includes(letter)) {
+                updateWordDisplay(letter);
+
+                buttonElement.style.backgroundColor = '#4CAF50'; 
+                setTimeout(() => {
+                    buttonElement.style.backgroundColor = '#3498db'; 
+                }, 500);
+            } else {
+
+                buttonElement.style.backgroundColor = '#e74c3c'; 
+                setTimeout(() => {
+                    buttonElement.style.backgroundColor = '#3498db'; 
+                }, 500);
+
+                attemptsLeft--;
+                document.getElementById('attemptsDisplay').textContent = 'Attempts left: ' + attemptsLeft;
+
+                if (attemptsLeft === 0) {
+                    document.getElementById('gameOverMessage').textContent = 'Game Over! You ran out of attempts. The correct word was: ' + selectedWord;
+                    disableButtons();
+                }
+            }
+        }
+
+        function updateWordDisplay(letter) {
+            const wordToGuessDisplay = document.getElementById('wordToGuess');
+            const wordArray = selectedWord.split('');
+
+            for (let i = 0; i < wordArray.length; i++) {
+                if (wordArray[i] === letter) {
+                    wordToGuessDisplay.textContent = wordToGuessDisplay.textContent.substr(0, 2 * i) + letter + ' ' + wordToGuessDisplay.textContent.substr(2 * i + 2);
+                }
+            }
+
+            if (!wordToGuessDisplay.textContent.includes('_')) {
+                setTimeout(function () {
+                    window.location.href = 'easy2.html';
+                }, 10);
+            }
+        }
+
+        function disableButtons() {
+            const buttons = document.querySelectorAll('.buttons button');
+            buttons.forEach(button => {
+                button.disabled = true;
+                button.style.cursor = 'not-allowed';
+                button.style.opacity = '0.5';
+            });
+
+            if (attemptsLeft === 0) {
+                setTimeout(function () {
+                    window.location.href = 'edwin5.html';
+                }, 10);
+            }
+        }
+    </script>
+</body>
+</html>
